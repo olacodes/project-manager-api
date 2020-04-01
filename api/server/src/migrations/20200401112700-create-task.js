@@ -9,18 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING,
-        allowNull: false
-
+        type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.TEXT,
-        allowNull: true
+        type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING,
-        allowNull: false
-
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -33,11 +28,11 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        reference: {
+        references: {
           model: 'Users',
           key: 'id',
           as: 'userId',
-        },
+        }
       },
     });
   },

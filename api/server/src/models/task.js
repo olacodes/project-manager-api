@@ -1,27 +1,28 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Task = sequelize.define('Task', {
+
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
+
     description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: true
     },
+
     status: {
       type: DataTypes.STRING,
-      defaultValue: "Todo",
-      allowNull: false
+      defaultValue: 'todo'
     }
   }, {});
-  Task.associate = (models) => {
-    // associations can be defined here
+  
+  Task.associate = function(models) {
     Task.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     })
-
   };
   return Task;
 };

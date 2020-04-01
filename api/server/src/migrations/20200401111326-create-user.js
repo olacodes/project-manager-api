@@ -12,29 +12,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          notNull: {
-            msg: "please enter your name"
-          }
-        }
-
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          isEmail: true,
-          msg: "Invalid email address"
-        }
-
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          len: [3,10],
-          msg: "Password must not be less than 3 characters"
-        }
       },
       createdAt: {
         allowNull: false,

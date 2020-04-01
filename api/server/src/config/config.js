@@ -1,28 +1,24 @@
-{
+require('dotenv').config()
+
+
+module.exports = {
   "development": {
     "username": "postgres",
-    "password": "olatunde123",
+    "password": process.env.DB_PASSWORD,
     "database": "project_tracker",
     "host": "127.0.0.1",
-    "port": 5432,
     "dialect": "postgres",
     "operatorsAliases": false
   },
   "test": {
     "username": "postgres",
-    "password": "olatunde123",
+    "password": process.env.DB_PASSWORD,
     "database": "project_tracker_test",
     "host": "127.0.0.1",
-    "port": 5432,
     "dialect": "postgres",
     "operatorsAliases": false
   },
   "production": {
-    "username": "postgres",
-    "password": "olatunde123",
-    "database": "project_tracker_production",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    use_env_variable: 'DATABASE_URL'
   }
 }
