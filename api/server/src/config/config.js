@@ -5,7 +5,7 @@ module.exports = {
   "development": {
     "username": "postgres",
     "password": process.env.DB_PASSWORD,
-    "database": "project_tracker",
+    "database": "project_manager",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false
@@ -13,7 +13,7 @@ module.exports = {
   "test": {
     "username": "postgres",
     "password": process.env.DB_PASSWORD,
-    "database": "project_tracker_test",
+    "database": "project_manager_test",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false

@@ -16,7 +16,7 @@ class Util {
     setError(statusCode, message){
         this.statusCode = statusCode
         this.message = message
-        // this.type = 'error'
+        this.type = 'error'
     }
 
     send(res){
@@ -28,12 +28,6 @@ class Util {
 
         if(this.type === 'success') {
             return res.status(this.statusCode).json(result);
-        }
-        else if(this.type === null) {
-            return res.status(this.statusCode).json({
-                status: 'validation error',
-                message: this.message.errors[0].message
-            })
         }
         return res.status(this.statusCode).json({
             status: this.type,
