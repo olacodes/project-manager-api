@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     })
+
+    Task.belongsTo(models.Project, {
+      foreignKey: 'projectId',
+      onDelete: 'CASCADE'
+    })
   };
   return Task;
 };
