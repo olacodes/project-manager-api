@@ -43,15 +43,3 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Project;
 };
-
-
-// username: {
-//   type: DataTypes.STRING,
-//   allowNull: false,
-//   unique: true,
-//   validate: {
-//     notNull: {
-//       msg: "please enter your username"
-//     }
-//   }
-// },
