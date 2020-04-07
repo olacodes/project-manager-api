@@ -2,8 +2,9 @@
   "name": "project-tracker-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node ./api/app.js",
     "dev": "nodemon ./api/app.js",
     "schema": "nodemon ./server/seeders/userSchema",
     "test": "echo \"Error: no test specified\" && exit 1"
