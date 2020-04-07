@@ -1,0 +1,27 @@
+version: "3"
+
+services: 
+    api:
+        restart: always
+        build: .
+        command: ["npm", "run", "dev"]
+        env_file: 
+            - .env
+        ports: 
+            - "8000:8000"
+        depends_on: 
+            - db
+
+    db:
+        image: postgres
+        environment: 
+            - POSTGRES_DB=project_manager
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=olatunde123
+        volumes: 
+            - "managerdb:/var/lib/postgresql/data"
+        ports: 
+            - "5432:5432"
+
+volumes: 
+    managerdb:
