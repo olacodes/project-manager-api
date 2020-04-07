@@ -7,7 +7,7 @@
     "start": "node ./api/app.js",
     "dev": "nodemon ./api/app.js",
     "schema": "nodemon ./server/seeders/userSchema",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,8 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
     "babel-watch": "^7.0.0",
-    "morgan": "^1.10.0"
+    "jest": "^25.2.7",
+    "morgan": "^1.10.0",
+    "supertest": "^4.0.2"
   }
 }
