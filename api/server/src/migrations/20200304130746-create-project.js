@@ -18,7 +18,12 @@ module.exports = {
       },
       createdBy: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull:{
+            msg: "Only user can create project"
+          }
+        }
       },
       createdAt: {
         allowNull: false,

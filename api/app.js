@@ -19,7 +19,7 @@ app.use('/api/v1/auth', userAuthRouter)
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({
     status: "success",
-    message: 'Welcome to the beginning of Projext-Tracker API.'
+    message: 'Welcome to the beginning of Project-manager API.'
 }));
 
 

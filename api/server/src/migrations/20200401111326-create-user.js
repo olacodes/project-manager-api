@@ -12,10 +12,20 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+          notNull: {
+            msg: "please enter your username"
+          }
+        }
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          isEmail: {
+            msg: "Enter a valid email address"
+          }
+        }
       },
       token: {
         type: Sequelize.STRING,
@@ -24,6 +34,12 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: "password must not be less than 3 characters"
+          }
+        }
       },
       createdAt: {
         allowNull: false,
