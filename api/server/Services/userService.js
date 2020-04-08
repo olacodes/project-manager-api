@@ -56,6 +56,7 @@ class UserService {
       throw error;
     }
   }
+  
   static async deleteUser(id) {
     try {
       const userToDelete = await DB.User.findOne({ where: { id: Number(id) } });

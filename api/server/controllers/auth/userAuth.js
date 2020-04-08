@@ -17,6 +17,15 @@ class UserAuth {
     try {
       const { username, password, email } = req.body;
 
+      const checkUserAleradyExist = await UserService.getUserByUsername(
+        username
+      );
+
+      if (checkUserAleradyExist) {
+        util.setError(400, "Username already exist");
+        return util.send(res);
+      }
+
       const hashedPassword = await bcrypt.hash(
         password,
         bcrypt.genSaltSync(process.env.BCRYPT_SALT * 1)
@@ -70,6 +79,26 @@ class UserAuth {
           util.setSuccess(200, "Login successful", { token: token });
           return util.send(res);
         }
+      }
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  static async userLogout(req, res) {
+    const user = req.body;
+
+    try {
+      if (!user.username) {
+        util.setError(400, "You are not logged in");
+        util.send(res);
+      }
+      const loginUser = await UserService.getUserByUsername(user.username);
+
+      if (loginUser) {
+        util.setSuccess(200, "You are logged out");
+        util.send(res);
       }
     } catch (error) {
       util.setError(400, error);
