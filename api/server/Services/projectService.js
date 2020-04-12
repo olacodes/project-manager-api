@@ -1,6 +1,10 @@
 const DB = require("../src/models");
 
 class ProjectService {
+  /**
+   * Get all project
+   * @returns { Object } projects Object or empty Object if no project found
+   */
   static async getAllProjects() {
     try {        
       const projects =  await DB.Project.findAll();      
@@ -10,6 +14,12 @@ class ProjectService {
     }
   }
 
+  /**
+   * Create new Project and save to database
+   * @param { Object } newProject - { projectName: " ", projectDescription: " " }
+   * @returns { object } new project
+   */
+
   static async createProject(newProject) {
     try {
       return await DB.Project.create(newProject);
@@ -18,33 +28,38 @@ class ProjectService {
     }
   }
 
+/**
+ * 
+ * @param {} id 
+ */
+
   static async getProject(id) {
     try {
-        console.log('tuiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-        
-      const project = await DB.Project.find({
-        include: [
-          {
-            model: User,
-            as: "users",
-            required: false,
-            attributes: ["id", "username", "email"],
-            through: { 
-                model: GroupProduct,
-                as: 'groupProjects',
-                attributes: [] 
-            },
-          },
-        ],
-        where: { id },
+      const project = await DB.Project.findOne({
+        where: { id }
       });
-      console.log(project);
       return project
       
     } catch (error) {
-        console.log(error);
-        
         throw error
+    }
+  }
+
+  static async getProjectWithUser(id) {
+    try {
+      
+      const projectWithUser = await DB.Project.findAll({
+        where: { id },
+        include: { model: DB.User, required: true, as: 'user'}
+      })
+      console.log(projectWithUser);
+      
+      return projectWithUser
+      
+    } catch (error) {
+      console.log(error);
+      
+      throw error
     }
   }
 }

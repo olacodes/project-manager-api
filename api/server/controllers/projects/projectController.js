@@ -37,10 +37,10 @@ class ProjectControllers {
 
   static async getAProject(req, res) {
     const { id } = req.params;
-    
+
     if (!Number(id)) {
       util.setError(400, "provide an id of the project");
-      util.send(res)
+      util.send(res);
     } else {
       try {
         const project = await ProjectService.getProject(id);
@@ -71,16 +71,74 @@ class ProjectControllers {
 
     try {
       if (!projectName && !createdBy) {
-        util.setError(
-          400,
-          "Project name cannot be empty or createdBy (to be deleted)"
-        );
+        util.setError(400, "Project name cannot be empty");
       } else {
         const newProject = await ProjectService.createProject(req.body);
         util.setSuccess(201, "Project successfully created", newProject);
       }
 
       util.send(res);
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  /**
+   * Add a User to an existing project
+   * @param { Object } req - object containing userId and projectId
+   * @param {*} res
+   * @returns { Object } - success message or error message
+   */
+
+  static async addUserToProject(req, res) {
+    const { userId, projectId } = req.body;
+
+    if (!userId && !projectId) {
+      util.setError(400, "User or project cannot be empty");
+      return util.send(res);
+    }
+    try {
+      const project = await ProjectService.getProject(projectId * 1);
+      if (!project) {
+        util.setError(400, "invalid project id");
+        return util.send(res);
+      }
+
+      // check if user exist
+      const projectUser = await project.addUser([userId]);
+      const userPro = await project.getUser();
+      console.log(userPro);
+
+      util.setSuccess(
+        200,
+        "user successfully added to the project",
+        projectUser
+      );
+      return util.send(res);
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  /**
+   * Get Project with all the users or contributor
+   * @param { void } req
+   * @param { void } res
+   * @returns { Object } - object that contains a project and array or users
+   */
+
+  static async getProjectWithUsers(req, res) {
+    const { id } = req.params;
+    try {
+      const groupProject = await ProjectService.getProjectWithUser(id);
+      util.setSuccess(
+        200,
+        "project successfully retrieved with users",
+        groupProject
+      );
+      return util.send(res);
     } catch (error) {
       util.setError(400, error);
       return util.send(res);
