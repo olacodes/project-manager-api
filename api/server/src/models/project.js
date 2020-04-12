@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Project.belongsToMany(models.User, {
       through: models.GroupProject,
-      as: "users",
+      as: "user",
       foreignKey: "projectId"
     })
 

@@ -17,11 +17,11 @@ class UserAuth {
     try {
       const { username, password, email } = req.body;
 
-      const checkUserAleradyExist = await UserService.getUserByUsername(
+      const checkUserAlreadyExist = await UserService.getUserByUsername(
         username
       );
 
-      if (checkUserAleradyExist) {
+      if (checkUserAlreadyExist) {
         util.setError(400, "Username already exist");
         return util.send(res);
       }
@@ -100,6 +100,8 @@ class UserAuth {
         util.setSuccess(200, "You are logged out");
         util.send(res);
       }
+      util.setError(400, "You are not logged in");
+      util.send(res);
     } catch (error) {
       util.setError(400, error);
       return util.send(res);

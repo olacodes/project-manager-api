@@ -1,5 +1,5 @@
 const DB = require("../src/models");
-const AppError = require("../error/appError");
+// const AppError = require("../error/appError");
 
 class UserService {
   static async getAllUsers() {
