@@ -10,6 +10,6 @@ router.route('/')
 
 router.route('/:id').get(ProjectController.getAProject)
 router.route('/adduser').post(ProjectController.addUserToProject)
-router.route('/getprojectuser/:id').get(ProjectController.getProjectWithUsers)
+router.route('/group-project/:id').get(ProjectController.getProjectWithUsers)
 
 module.exports = router
