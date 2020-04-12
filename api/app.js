@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const userRouter = require('./server/routes/userRoutes')
 const userAuthRouter = require('./server/routes/auth/userAuthRoute')
+const projectRouter = require('./server/routes/projectRoutes/projectRoute')
 const cors = require('cors')
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(express.json())
 app.use('/api/v1/users', userRouter)
 
 app.use('/api/v1/auth', userAuthRouter)
+
+app.use('/api/v1/project', projectRouter)
 
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({
