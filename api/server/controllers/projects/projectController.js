@@ -126,7 +126,7 @@ class ProjectControllers {
    * Get Project with all the users or contributor
    * @param { void } req
    * @param { void } res
-   * @returns { Object } - object that contains a project and array or users
+   * @returns { Object } - object that contains a project and array of users
    */
 
   static async getProjectWithUsers(req, res) {
@@ -138,6 +138,37 @@ class ProjectControllers {
         "project successfully retrieved with users",
         groupProject
       );
+      return util.send(res);
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  /**
+   * Get a user with all his project(s)
+   * @param {*} req
+   * @param {*} res 
+   * @returns { Object } Object of user information with all his projects
+   */
+  static async getUserProjects(req, res) {
+    const { id } = req.params;
+
+    if(!id) {
+      util.setError(400, 'user id must be provided');
+      return util.send(res)
+    }
+    try {
+      const userProjects = await ProjectService.getUserProjects(id);
+      if (userProjects.length == 0) {
+        util.setSuccess(200, "You have no project", userProjects);
+      } else {
+        util.setSuccess(
+          200,
+          "user successfully retrieved with his projects",
+          userProjects
+        );
+      }
       return util.send(res);
     } catch (error) {
       util.setError(400, error);

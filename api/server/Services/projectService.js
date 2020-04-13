@@ -6,9 +6,9 @@ class ProjectService {
    * @returns { Object } projects Object or empty Object if no project found
    */
   static async getAllProjects() {
-    try {        
-      const projects =  await DB.Project.findAll();      
-      return projects
+    try {
+      const projects = await DB.Project.findAll();
+      return projects;
     } catch (error) {
       throw error;
     }
@@ -28,38 +28,45 @@ class ProjectService {
     }
   }
 
-/**
- * 
- * @param {} id 
- */
+  /**
+   *
+   * @param {} id
+   */
 
   static async getProject(id) {
     try {
       const project = await DB.Project.findOne({
-        where: { id }
+        where: { id },
       });
-      return project
-      
+      return project;
     } catch (error) {
-        throw error
+      throw error;
     }
   }
 
   static async getProjectWithUser(id) {
     try {
-      
       const projectWithUser = await DB.Project.findAll({
         where: { id },
-        include: { model: DB.User, required: true, as: 'user'}
-      })
-      console.log(projectWithUser);
-      
-      return projectWithUser
-      
+        include: { model: DB.User, required: true, as: "user" },
+      });
+
+      return projectWithUser;
     } catch (error) {
-      console.log(error);
-      
-      throw error
+      throw error;
+    }
+  }
+
+  static async getUserProjects(id) {
+    try {
+      const userProject = await DB.User.findAll({
+        where: { id },
+        include: { model: DB.Project, required: true, as: "project" },
+      });
+
+      return userProject;
+    } catch (error) {
+      throw error;
     }
   }
 }
