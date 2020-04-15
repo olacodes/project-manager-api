@@ -1,4 +1,5 @@
 const ProjectService = require("../../Services/projectService");
+const UserService = require("../../Services/userService");
 const Util = require("../../utils/utils");
 
 const util = new Util();
@@ -67,14 +68,24 @@ class ProjectControllers {
    */
 
   static async createProject(req, res) {
-    const { projectName, createdBy } = req.body;
+    // create project and add the user that created it to the project automatically
+    const { projectName, id } = req.body;
 
     try {
-      if (!projectName && !createdBy) {
+      if (!projectName) {
         util.setError(400, "Project name cannot be empty");
       } else {
-        const newProject = await ProjectService.createProject(req.body);
-        util.setSuccess(201, "Project successfully created", newProject);
+        const user = await UserService.getAUser(id);
+        const createdBy = user.username;
+        const { projectName, projectDescription } = req.body;
+        const payload = { createdBy, projectDescription, projectName };
+
+        const newProject = await ProjectService.createProject(payload);
+        // Add this user to the project he created
+        const projectUser = await newProject.addUser([user.id]);
+        const userProjects = await ProjectService.getUserProjects(user.id)
+        
+        util.setSuccess(201, "Project successfully created", userProjects);
       }
 
       util.send(res);
@@ -108,12 +119,11 @@ class ProjectControllers {
       // check if user exist
       const projectUser = await project.addUser([userId]);
       const userPro = await project.getUser();
-      console.log(userPro);
 
       util.setSuccess(
         200,
         "user successfully added to the project",
-        projectUser
+        userPro
       );
       return util.send(res);
     } catch (error) {
@@ -148,15 +158,15 @@ class ProjectControllers {
   /**
    * Get a user with all his project(s)
    * @param {*} req
-   * @param {*} res 
+   * @param {*} res
    * @returns { Object } Object of user information with all his projects
    */
   static async getUserProjects(req, res) {
     const { id } = req.params;
 
-    if(!id) {
-      util.setError(400, 'user id must be provided');
-      return util.send(res)
+    if (!id) {
+      util.setError(400, "user id must be provided");
+      return util.send(res);
     }
     try {
       const userProjects = await ProjectService.getUserProjects(id);
