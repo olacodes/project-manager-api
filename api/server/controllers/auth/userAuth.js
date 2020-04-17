@@ -31,19 +31,21 @@ class UserAuth {
         bcrypt.genSaltSync(process.env.BCRYPT_SALT * 1)
       );
 
+      const user = { username, email, password: hashedPassword };
+      const createdUser = await UserService.createUser({ ...user });
+
       const token = jwt.sign(
-        { username: newUser.username },
+        { id: createdUser.id, username: createdUser.username },
         process.env.JWT_SECRET
       );
-
-      const user = { username, email, password: hashedPassword };
-      const createdUser = await UserService.createUser({ token, ...user });
 
       const responseData = { token };
 
       util.setSuccess(201, "User successfully created!", responseData);
       return util.send(res);
     } catch (error) {
+      console.log(error);
+      
       util.setError(400, error);
       return util.send(res);
     }
